@@ -11,11 +11,14 @@
 
     <div>
       <h2>Login</h2>
-      <form>
+      <!-- line 16: is executing the onsubmit function from the JS.that function returns FALSE which by itself will prevent the browser default behavior-reloading the page. -->
+
+      <form onsubmit="return onSubmit(event)">
         <label>Username</label>
         <input type="text" />
         <label>Password</label>
         <input type="password" />
+        <input type="submit" />
       </form>
     </div>
 
