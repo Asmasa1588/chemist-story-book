@@ -8,6 +8,16 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 const port = 3001;
+const chemistStories = [
+  {
+    title: "Elephant toothpaste",
+    content: "I blew up the lab",
+  },
+  {
+    title: "nano technology fluid ",
+    content: "this fluid is water resistent",
+  },
+];
 const users = [
   {
     username: "jupiter",
@@ -34,6 +44,13 @@ app.post("/login", function (req, res) {
     res.status(401);
     res.send({ error: "either the username or password is incorrect" });
   }
+});
+
+// app.get : end point.(backend). we must have a call back function as a second parameter(ex.
+//"/chemist-story", ), 2nd parameter starts with a coma and followed by an arrow.
+//"/chemist-story": is the 1st parameter. we use coma to separate two parameters
+app.get("/chemist-story", (req, res) => {
+  res.send(chemistStories);
 });
 
 app.listen(port, () => {
