@@ -46,10 +46,16 @@ app.post("/login", function (req, res) {
   }
 });
 
+const authenticate = (req, res, next) => {
+  console.log("This is a middleware");
+  next();
+};
+
 // app.get : end point.(backend). we must have a call back function as a second parameter(ex.
 //"/chemist-story", ), 2nd parameter starts with a coma and followed by an arrow.
 //"/chemist-story": is the 1st parameter. we use coma to separate two parameters
-app.get("/chemist-story", (req, res) => {
+app.get("/chemist-story", [authenticate], (req, res) => {
+  console.log("This is the actual /chemist-story end point");
   res.send(chemistStories);
 });
 
