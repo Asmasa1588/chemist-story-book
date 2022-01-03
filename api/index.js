@@ -37,9 +37,7 @@ app.post("/login", function (req, res) {
   );
   if (foundUser) {
     const token = jwt.sign({ username: foundUser.username }, "secret");
-    res.send({
-      token,
-    });
+    res.next(token);
   } else {
     res.status(401);
     res.send({ error: "either the username or password is incorrect" });
@@ -47,8 +45,22 @@ app.post("/login", function (req, res) {
 });
 
 const authenticate = (req, res, next) => {
-  console.log("This is a middleware");
-  next();
+  const authorizationProperty = req.headers.authorization;
+  console.log("This is a middleware", authorizationProperty);
+  if (!authorizationProperty) {
+    res.status(401);
+    res.send({ error: "Please, provide a json web token!" });
+  }
+  const token = authorizationProperty.split(" ");
+
+  try {
+    var decoded = jwt.verify(token, "secret");
+    next();
+  } catch (err) {
+    // err
+    res.status(401);
+    res.send({ error: "Please, provide a valid json web token!" });
+  }
 };
 
 // app.get : end point.(backend). we must have a call back function as a second parameter(ex.
