@@ -37,7 +37,7 @@ app.post("/login", function (req, res) {
   );
   if (foundUser) {
     const token = jwt.sign({ username: foundUser.username }, "secret");
-    res.next(token);
+    res.send(token);
   } else {
     res.status(401);
     res.send({ error: "either the username or password is incorrect" });
@@ -46,12 +46,12 @@ app.post("/login", function (req, res) {
 
 const authenticate = (req, res, next) => {
   const authorizationProperty = req.headers.authorization;
-  console.log("This is a middleware", authorizationProperty);
+
   if (!authorizationProperty) {
     res.status(401);
     res.send({ error: "Please, provide a json web token!" });
   }
-  const token = authorizationProperty.split(" ");
+  const token = authorizationProperty.split(" ")[1];
 
   try {
     var decoded = jwt.verify(token, "secret");
