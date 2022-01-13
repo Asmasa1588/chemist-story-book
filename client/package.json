@@ -5,8 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx live-server --verbose"
+    "start": "npx live-server --verbose",
+    "build": "browserify index.js > bundle.js"
+
   },
   "author": "Asma Sadiq",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "browserify": "^17.0.0",
+    "jsonwebtoken": "^8.5.1"
+  }
 }

@@ -8,11 +8,11 @@
   </head>
   <body>
     <h1>Chemist Storybook</h1>
+    <button>Sign Up</button>
+    <button onclick="openLoginScreen()">Login</button>
+    <div id="greeting-user"></div>
 
-    <div>
-      <h2>Login</h2>
-      <!-- line 16: is executing the onsubmit function from the JS.that function returns FALSE which by itself will prevent the browser default behavior-reloading the page. -->
-
+    <div id="login-screen">
       <form onsubmit="return onSubmit(event)">
         <label>Username</label>
         <input type="text" />
@@ -22,6 +22,6 @@
       </form>
     </div>
 
-    <script src="./index.js"></script>
+    <script type="module" src="./bundle.js"></script>
   </body>
 </html>

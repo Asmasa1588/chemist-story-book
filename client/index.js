@@ -1,4 +1,11 @@
-console.log("Jupiter is bothering Gypsy");
+const jwt = require("jsonwebtoken");
+// import * as jwt from "jsonwebtoken";
+console.log("This is Jupiter");
+const loginScreenElement = document.getElementById("login-screen");
+const greetingUserContainer = document.getElementById("greeting-user");
+loginScreenElement.style.display = "none";
+greetingUserContainer.style.display = "none";
+
 function onSubmit(event) {
   console.log(event);
   const username = event.target[0].value;
@@ -19,7 +26,14 @@ function onSubmit(event) {
     .then((response) => response.json())
     .then((response) => {
       console.log(response);
+      const token = response.token;
+      localStorage.setItem("token", JSON.stringify(token));
+      greetingUserContainer.style.display = "block";
+      loginScreenElement.style.display = "none";
     });
 
   return false;
+}
+function openLoginScreen() {
+  loginScreenElement.style.display = "block";
 }

@@ -37,7 +37,7 @@ app.post("/login", function (req, res) {
   );
   if (foundUser) {
     const token = jwt.sign({ username: foundUser.username }, "secret");
-    res.send(token);
+    res.send({ token });
   } else {
     res.status(401);
     res.send({ error: "either the username or password is incorrect" });
