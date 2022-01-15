@@ -6,7 +6,8 @@ const greetingUserContainer = document.getElementById("greeting-user");
 loginScreenElement.style.display = "none";
 greetingUserContainer.style.display = "none";
 
-function onSubmit(event) {
+function onLoginSubmit(event) {
+  event.preventDefault()
   console.log(event);
   const username = event.target[0].value;
 
@@ -34,6 +35,11 @@ function onSubmit(event) {
 
   return false;
 }
+document.getElementById("login-form").addEventListener("submit", onLoginSubmit);
+
 function openLoginScreen() {
   loginScreenElement.style.display = "block";
 }
+document
+  .getElementById("login-button")
+  .addEventListener("click", openLoginScreen);

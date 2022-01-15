@@ -9,11 +9,11 @@
   <body>
     <h1>Chemist Storybook</h1>
     <button>Sign Up</button>
-    <button onclick="openLoginScreen()">Login</button>
+    <button id="login-button">Login</button>
     <div id="greeting-user"></div>
 
     <div id="login-screen">
-      <form onsubmit="return onSubmit(event)">
+      <form id="login-form">
         <label>Username</label>
         <input type="text" />
         <label>Password</label>
@@ -22,6 +22,6 @@
       </form>
     </div>
 
-    <script type="module" src="./bundle.js"></script>
+    <script src="./bundle.js"></script>
   </body>
 </html>
