@@ -1,11 +1,14 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const jwt = require("jsonwebtoken");
+const chemistStoriesContainer = document.getElementById(
+  "chemist-stories-container"
+);
 const loginRegisterButtons = document.getElementById("login-register-buttons");
 const loginScreenElement = document.getElementById("login-screen");
 const greetingUserContainer = document.getElementById("greeting-user");
 loginScreenElement.style.display = "none";
 greetingUserContainer.style.display = "none";
-
+chemistStoriesContainer.style.display = "none";
 
 function onLoginSubmit(event) {
   event.preventDefault();
@@ -35,6 +38,21 @@ function onLoginSubmit(event) {
       console.log({ decoded });
       greetingUserContainer.innerText = `Greetings, ${decoded.username}!`;
       loginRegisterButtons.style.display = "none";
+      chemistStoriesContainer.style.display = "block";
+      const chemistStoriesList = document.getElementById(
+        "chemist-stories-list"
+      );
+      fetch("http://localhost:3001/chemist-story", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log({ data });
+        });
     });
 
   return false;
