@@ -1,20 +1,19 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const jwt = require("jsonwebtoken");
-// import * as jwt from "jsonwebtoken";
-console.log("This is Jupiter");
+const loginRegisterButtons = document.getElementById("login-register-buttons");
 const loginScreenElement = document.getElementById("login-screen");
 const greetingUserContainer = document.getElementById("greeting-user");
 loginScreenElement.style.display = "none";
 greetingUserContainer.style.display = "none";
 
+
 function onLoginSubmit(event) {
-  event.preventDefault()
-  console.log(event);
+  event.preventDefault();
+
   const username = event.target[0].value;
 
   const password = event.target[1].value;
 
-  console.log(username, password);
   fetch("http://localhost:3001/login", {
     method: "POST",
     headers: {
@@ -32,6 +31,10 @@ function onLoginSubmit(event) {
       localStorage.setItem("token", JSON.stringify(token));
       greetingUserContainer.style.display = "block";
       loginScreenElement.style.display = "none";
+      const decoded = jwt.verify(token, "secret");
+      console.log({ decoded });
+      greetingUserContainer.innerText = `Greetings, ${decoded.username}!`;
+      loginRegisterButtons.style.display = "none";
     });
 
   return false;

@@ -1,19 +1,18 @@
 const jwt = require("jsonwebtoken");
-// import * as jwt from "jsonwebtoken";
-console.log("This is Jupiter");
+const loginRegisterButtons = document.getElementById("login-register-buttons");
 const loginScreenElement = document.getElementById("login-screen");
 const greetingUserContainer = document.getElementById("greeting-user");
 loginScreenElement.style.display = "none";
 greetingUserContainer.style.display = "none";
 
+
 function onLoginSubmit(event) {
-  event.preventDefault()
-  console.log(event);
+  event.preventDefault();
+
   const username = event.target[0].value;
 
   const password = event.target[1].value;
 
-  console.log(username, password);
   fetch("http://localhost:3001/login", {
     method: "POST",
     headers: {
@@ -31,6 +30,10 @@ function onLoginSubmit(event) {
       localStorage.setItem("token", JSON.stringify(token));
       greetingUserContainer.style.display = "block";
       loginScreenElement.style.display = "none";
+      const decoded = jwt.verify(token, "secret");
+      console.log({ decoded });
+      greetingUserContainer.innerText = `Greetings, ${decoded.username}!`;
+      loginRegisterButtons.style.display = "none";
     });
 
   return false;
