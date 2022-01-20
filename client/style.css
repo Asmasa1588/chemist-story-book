@@ -1,0 +1,6 @@
+.chemist-story-title-element {
+  cursor: pointer;
+}
+.chemist-story-title-element:hover {
+  color: red;
+}

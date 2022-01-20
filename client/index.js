@@ -49,8 +49,16 @@ function onLoginSubmit(event) {
         },
       })
         .then((response) => response.json())
-        .then((data) => {
-          console.log({ data });
+        .then((chemistStories) => {
+          console.log({ data: chemistStories });
+          const chemistStoriesListElement = document.getElementById(
+            "chemist-stories-list"
+          );
+          chemistStoriesListElement.innerHTML = chemistStories
+            .map((chemistStory) => {
+              return `<li class="chemist-story-title-element">${chemistStory.title}</li>`;
+            })
+            .join("");
         });
     });
 
@@ -64,3 +72,5 @@ function openLoginScreen() {
 document
   .getElementById("login-button")
   .addEventListener("click", openLoginScreen);
+
+document.getElementsByClassName("chemist-story-title-element").addEventListener;
