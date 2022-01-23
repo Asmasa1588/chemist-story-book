@@ -54,11 +54,35 @@ function onLoginSubmit(event) {
           const chemistStoriesListElement = document.getElementById(
             "chemist-stories-list"
           );
+
           chemistStoriesListElement.innerHTML = chemistStories
             .map((chemistStory) => {
               return `<li class="chemist-story-title-element">${chemistStory.title}</li>`;
             })
             .join("");
+
+          const storiesTitleElements = document.getElementsByClassName(
+            "chemist-story-title-element"
+          );
+
+          for (const titleElement of storiesTitleElements) {
+            titleElement.addEventListener("click", () => {
+              console.log("click", titleElement.textContent);
+              const foundClickedChemistStory = chemistStories.find((story) => {
+                return story.title === titleElement.textContent;
+              });
+              console.log("the whole story", foundClickedChemistStory);
+              const viewTitleElement = document.getElementsByClassName(
+                "chemist-story-view-title"
+              )[0];
+              viewTitleElement.innerText = foundClickedChemistStory.title;
+
+              const viewContentElement = document.getElementsByClassName(
+                "chemist-story-view-content"
+              )[0];
+              viewContentElement.innerText = foundClickedChemistStory.content;
+            });
+          }
         });
     });
 
@@ -72,5 +96,3 @@ function openLoginScreen() {
 document
   .getElementById("login-button")
   .addEventListener("click", openLoginScreen);
-
-document.getElementsByClassName("chemist-story-title-element").addEventListener;
