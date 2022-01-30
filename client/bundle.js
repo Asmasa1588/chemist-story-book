@@ -33,10 +33,17 @@ function onLoginSubmit(event) {
       const token = response.token;
       localStorage.setItem("token", JSON.stringify(token));
       greetingUserContainer.style.display = "block";
+
       loginScreenElement.style.display = "none";
       const decoded = jwt.verify(token, "secret");
+
       console.log({ decoded });
-      greetingUserContainer.innerText = `Greetings, ${decoded.username}!`;
+      const oldHTMLContent = greetingUserContainer.innerHTML;
+      greetingUserContainer.innerHTML = `<div> Greetings, ${decoded.username}!${oldHTMLContent}</div>`;
+      document
+        .getElementById("create-story-icon")
+        .addEventListener("click", openCreateStoryScreen);
+
       loginRegisterButtons.style.display = "none";
       chemistStoriesContainer.style.display = "block";
       const chemistStoriesList = document.getElementById(
@@ -94,9 +101,15 @@ document.getElementById("login-form").addEventListener("submit", onLoginSubmit);
 function openLoginScreen() {
   loginScreenElement.style.display = "block";
 }
+function openCreateStoryScreen() {
+  console.log("create chemist story");
+}
 document
   .getElementById("login-button")
   .addEventListener("click", openLoginScreen);
+document
+  .getElementById("create-story-icon")
+  .addEventListener("click", openCreateStoryScreen);
 
 },{"jsonwebtoken":154}],2:[function(require,module,exports){
 'use strict';

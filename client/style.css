@@ -4,3 +4,9 @@
 .chemist-story-title-element:hover {
   color: red;
 }
+
+#greeting-user img {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
