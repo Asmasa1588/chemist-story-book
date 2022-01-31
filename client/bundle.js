@@ -6,9 +6,13 @@ const chemistStoriesContainer = document.getElementById(
 const loginRegisterButtons = document.getElementById("login-register-buttons");
 const loginScreenElement = document.getElementById("login-screen");
 const greetingUserContainer = document.getElementById("greeting-user");
+const createStoryScreen = document.getElementById(
+  "create-chemist-story-screen"
+);
 loginScreenElement.style.display = "none";
 greetingUserContainer.style.display = "none";
 chemistStoriesContainer.style.display = "none";
+createStoryScreen.style.display = "none";
 
 function onLoginSubmit(event) {
   event.preventDefault();
@@ -98,18 +102,28 @@ function onLoginSubmit(event) {
 }
 document.getElementById("login-form").addEventListener("submit", onLoginSubmit);
 
+function onStorySubmit(event) {
+  event.preventDefault();
+
+  const title = event.target[0].value;
+
+  const content = event.target[1].value;
+  console.log({ title, content });
+}
+document
+  .getElementById("create-story-form")
+  .addEventListener("submit", onStorySubmit);
+
 function openLoginScreen() {
   loginScreenElement.style.display = "block";
 }
 function openCreateStoryScreen() {
   console.log("create chemist story");
+  createStoryScreen.style.display = "block";
 }
 document
   .getElementById("login-button")
   .addEventListener("click", openLoginScreen);
-document
-  .getElementById("create-story-icon")
-  .addEventListener("click", openCreateStoryScreen);
 
 },{"jsonwebtoken":154}],2:[function(require,module,exports){
 'use strict';
