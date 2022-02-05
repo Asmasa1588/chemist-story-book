@@ -18,7 +18,7 @@ const chemistStories = [
     content: "this fluid is water resistent",
   },
 ];
-const users = [
+let users = [
   {
     username: "jupiter",
     password: "123",
@@ -54,7 +54,8 @@ const authenticate = (req, res, next) => {
   const token = authorizationProperty.split(" ")[1];
 
   try {
-    var decoded = jwt.verify(token, "secret");
+    const decoded = jwt.verify(token, "secret");
+    req.body.decodedUser = decoded;
     next();
   } catch (err) {
     // err
@@ -71,6 +72,37 @@ app.get("/chemist-story", [authenticate], (req, res) => {
   res.send(chemistStories);
 });
 
+app.post("/create-story", [authenticate], function (req, res) {
+  const chemistStoryAuthor = req.body.decodedUser;
+  const newChemistStoryTitle = req.body.title;
+  const newChemistStoryContent = req.body.content;
+
+  const foundUser = users.find(
+    (user) => user.username === chemistStoryAuthor.username
+  );
+
+  const updatedUser = {
+    ...foundUser,
+    stories: [
+      ...(foundUser.stories || []),
+      {
+        title: newChemistStoryTitle,
+        content: newChemistStoryContent,
+      },
+    ],
+  };
+
+  users = users.map((user) => {
+    if (user.username === chemistStoryAuthor.username) {
+      return updatedUser;
+    }
+    return user;
+  });
+  res.send(updatedUser);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
+
+
