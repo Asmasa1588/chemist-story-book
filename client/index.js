@@ -61,39 +61,7 @@ function onLoginSubmit(event) {
       })
         .then((response) => response.json())
         .then((chemistStories) => {
-          console.log({ data: chemistStories });
-          const chemistStoriesListElement = document.getElementById(
-            "chemist-stories-list"
-          );
-
-          chemistStoriesListElement.innerHTML = chemistStories
-            .map((chemistStory) => {
-              return `<li class="chemist-story-title-element">${chemistStory.title}</li>`;
-            })
-            .join("");
-
-          const storiesTitleElements = document.getElementsByClassName(
-            "chemist-story-title-element"
-          );
-
-          for (const titleElement of storiesTitleElements) {
-            titleElement.addEventListener("click", () => {
-              console.log("click", titleElement.textContent);
-              const foundClickedChemistStory = chemistStories.find((story) => {
-                return story.title === titleElement.textContent;
-              });
-              console.log("the whole story", foundClickedChemistStory);
-              const viewTitleElement = document.getElementsByClassName(
-                "chemist-story-view-title"
-              )[0];
-              viewTitleElement.innerText = foundClickedChemistStory.title;
-
-              const viewContentElement = document.getElementsByClassName(
-                "chemist-story-view-content"
-              )[0];
-              viewContentElement.innerText = foundClickedChemistStory.content;
-            });
-          }
+          renderStories(chemistStories);
         });
     });
 
@@ -108,6 +76,24 @@ function onStorySubmit(event) {
 
   const content = event.target[1].value;
   console.log({ title, content });
+
+  const token = JSON.parse(localStorage.getItem("token"));
+  //this is the end point/create-story
+  fetch("http://localhost:3001/create-story", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      title,
+      content,
+    }),
+  })
+    .then((response) => response.json())
+    .then((chemistStories) => {
+      renderStories(chemistStories);
+    });
 }
 document
   .getElementById("create-story-form")
@@ -123,3 +109,39 @@ function openCreateStoryScreen() {
 document
   .getElementById("login-button")
   .addEventListener("click", openLoginScreen);
+
+function renderStories(chemistStories) {
+  console.log({ data: chemistStories });
+  const chemistStoriesListElement = document.getElementById(
+    "chemist-stories-list"
+  );
+
+  chemistStoriesListElement.innerHTML = chemistStories
+    .map((chemistStory) => {
+      return `<li class="chemist-story-title-element">${chemistStory.title}</li>`;
+    })
+    .join("");
+
+  const storiesTitleElements = document.getElementsByClassName(
+    "chemist-story-title-element"
+  );
+
+  for (const titleElement of storiesTitleElements) {
+    titleElement.addEventListener("click", () => {
+      console.log("click", titleElement.textContent);
+      const foundClickedChemistStory = chemistStories.find((story) => {
+        return story.title === titleElement.textContent;
+      });
+      console.log("the whole story", foundClickedChemistStory);
+      const viewTitleElement = document.getElementsByClassName(
+        "chemist-story-view-title"
+      )[0];
+      viewTitleElement.innerText = foundClickedChemistStory.title;
+
+      const viewContentElement = document.getElementsByClassName(
+        "chemist-story-view-content"
+      )[0];
+      viewContentElement.innerText = foundClickedChemistStory.content;
+    });
+  }
+}

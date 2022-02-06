@@ -12,10 +12,12 @@ const chemistStories = [
   {
     title: "Elephant toothpaste",
     content: "I blew up the lab",
+    author: "jupiter",
   },
   {
     title: "nano technology fluid ",
     content: "this fluid is water resistent",
+    author: "jupiter",
   },
 ];
 let users = [
@@ -77,32 +79,15 @@ app.post("/create-story", [authenticate], function (req, res) {
   const newChemistStoryTitle = req.body.title;
   const newChemistStoryContent = req.body.content;
 
-  const foundUser = users.find(
-    (user) => user.username === chemistStoryAuthor.username
-  );
-
-  const updatedUser = {
-    ...foundUser,
-    stories: [
-      ...(foundUser.stories || []),
-      {
-        title: newChemistStoryTitle,
-        content: newChemistStoryContent,
-      },
-    ],
-  };
-
-  users = users.map((user) => {
-    if (user.username === chemistStoryAuthor.username) {
-      return updatedUser;
-    }
-    return user;
+  chemistStories.push({
+    title: newChemistStoryTitle,
+    content: newChemistStoryContent,
+    author: chemistStoryAuthor,
   });
-  res.send(updatedUser);
+
+  res.send(chemistStories);
 });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-
-
