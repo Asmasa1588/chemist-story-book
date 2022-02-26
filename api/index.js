@@ -2,6 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
+const mysql = require("mysql");
+require("dotenv").config();
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: process.env.USERNAME,
+  password: process.env.PASSWORD,
+  database: "chemist_storybook_db",
+});
 
 const app = express();
 
@@ -70,7 +78,23 @@ const authenticate = (req, res, next) => {
 //"/chemist-story", ), 2nd parameter starts with a coma and followed by an arrow.
 //"/chemist-story": is the 1st parameter. we use coma to separate two parameters
 app.get("/chemist-story", [authenticate], (req, res) => {
-  console.log("This is the actual /chemist-story end point");
+  console.log("Testing mysql connection");
+
+  connection.connect();
+
+  connection.query(
+    "SELECT * FROM chemist_stories",
+    function (error, results, fields) {
+      if (error) {
+        console.log(error, "mySql error");
+        throw error;
+      }
+      console.log("The solution is: ", results);
+    }
+  );
+
+  connection.end();
+
   res.send(chemistStories);
 });
 

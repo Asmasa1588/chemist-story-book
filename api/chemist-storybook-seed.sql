@@ -1,4 +1,3 @@
-
 DROP DATABASE IF EXISTS chemist_storybook_db;
 
 CREATE DATABASE chemist_storybook_db;
@@ -27,3 +26,11 @@ INSERT INTO users(username, password)
 VALUES ('gypsy', '456');
 
 SELECT * FROM users;
+
+INSERT INTO chemist_stories(title, content, authorID)
+VALUES ('Elephant toothpaste', 'I blew up the lab', 1);
+
+INSERT INTO chemist_stories(title, content, authorID)
+VALUES ('nano technology fluid', 'this fluid is water resistent', 1);
+
+SELECT * FROM chemist_stories;
